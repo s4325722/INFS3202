@@ -66,7 +66,8 @@ module.exports = function(grunt) {
             production: {
                 files: [
                     // includes files within path
-                    {expand: true, cwd: 'src/', src: ['*.html'], dest: 'build/', filter: 'isFile'}
+                    {expand: true, cwd: 'src/', src: ['*.html'], dest: 'build/', filter: 'isFile'},
+                    {expand: true, cwd: 'src/dart/packages/browser', src: ['dart.js'], dest: 'build/assets/js', filter: 'isFile'}
                 ]
             }
         }
