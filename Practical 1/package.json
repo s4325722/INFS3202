@@ -1,0 +1,16 @@
+{
+  "name": "Practical1",
+  "description": "INFS3202 Practical 1",
+  "version": "0.0.1",
+  "author": "Blake Carter (s4325722)",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.3",
+    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-less": "^0.10.0",
+    "grunt-dart2js": "0.0.5",
+    "grunt-contrib-copy": "^0.5.0"
+  }
+}
