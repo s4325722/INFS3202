@@ -33,15 +33,13 @@ void callback(List<PlaceResult> results, PlacesServiceStatus status, PlaceSearch
       if(results[i].photos == null || results[i].photos.length == 0)
         continue;
 
-      for(var j = 0; j < results[i].photos.length; j++) {
-        PlacePhoto pp = results[i].photos[j];
-
         var img = new ImageElement(
-            src: "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="// + pp.$unsafe['photo_reference']
+            src: "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
+                  results[i].reference +
+                 "sensor=false&key=AIzaSyCSc01anvKtXZ5Q_fGp7p8_2JbiWBtSAq4"
         );
 
         querySelector("#images").nodes.add(img);
-      }
     }
   }
 }
