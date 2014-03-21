@@ -36,7 +36,7 @@ void callback(List<PlaceResult> results, PlacesServiceStatus status, PlaceSearch
         var img = new ImageElement(
             src: "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
                   results[i].reference +
-                 "sensor=false&key=AIzaSyCSc01anvKtXZ5Q_fGp7p8_2JbiWBtSAq4"
+                 "&sensor=false&key=AIzaSyCSc01anvKtXZ5Q_fGp7p8_2JbiWBtSAq4"
         );
 
         querySelector("#images").nodes.add(img);
