@@ -42,13 +42,18 @@ void placeSearchCallback(List<PlaceResult> results, PlacesServiceStatus status, 
 }
 
 void placeDetailsCallback(PlaceResult result, PlacesServiceStatus status){
-  var img = new ImageElement(
-      src: "https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyCSc01anvKtXZ5Q_fGp7p8_2JbiWBtSAq4&" +
-      "sensor=false&maxheight=400&photoreference=" +
-      result.reference
-  );
+  if(status == PlacesServiceStatus.OK) {
+    if(result.photos != null && result.photos.length > 0){
+      PlacePhoto firstPhoto = result.photos[0];
 
-  //querySelector("#images").nodes.add(img);
+      PhotoOptions photoOptions = new PhotoOptions()
+      ..maxHeight = 400
+      ..maxWidth = 400
+      ;
+
+      querySelector("#images").nodes.add(new ImageElement(src: firstPhoto.getUrl(photoOptions)));
+    }
+  }
 }
 
 void randomiseGrid(int gridColumns, int gridRows){
