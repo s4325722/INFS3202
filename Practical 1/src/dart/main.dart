@@ -4,6 +4,7 @@ import 'package:google_maps/google_maps_places.dart';
 
 GMap map;
 InfoWindow infowindow;
+PlacesService service;
 
 void main(){
   final st_lucia = new LatLng(-27.5000, 153.0000);
@@ -14,6 +15,8 @@ void main(){
     ..zoom = 15
   );
 
+  service = new PlacesService(map);
+
   final request = new PlaceSearchRequest()
     ..location = st_lucia
     ..radius = 1500
@@ -21,27 +24,31 @@ void main(){
   ;
 
   infowindow = new InfoWindow();
-  final service = new PlacesService(map);
   // TODO search not documented
-  service.nearbySearch(request, callback);
+  service.nearbySearch(request, placeSearchCallback);
 }
 
-void callback(List<PlaceResult> results, PlacesServiceStatus status, PlaceSearchPagination pagination) {
+void placeSearchCallback(List<PlaceResult> results, PlacesServiceStatus status, PlaceSearchPagination pagination) {
   if (status == PlacesServiceStatus.OK) {
+
     for (var i = 0; i < results.length; i++) {
 
-      if(results[i].photos == null || results[i].photos.length == 0)
-        continue;
+      var request = new PlaceDetailsRequest()
+        ..reference = results[i].reference;
 
-        var img = new ImageElement(
-            src: "https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyCSc01anvKtXZ5Q_fGp7p8_2JbiWBtSAq4&" +
-                 "sensor=false&maxheight=400&photoreference=" +
-                  results[i].reference
-        );
-
-        querySelector("#images").nodes.add(img);
+      service.getDetails(request, placeDetailsCallback);
     }
   }
+}
+
+void placeDetailsCallback(PlaceResult result, PlacesServiceStatus status){
+  var img = new ImageElement(
+      src: "https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyCSc01anvKtXZ5Q_fGp7p8_2JbiWBtSAq4&" +
+      "sensor=false&maxheight=400&photoreference=" +
+      result.reference
+  );
+
+  //querySelector("#images").nodes.add(img);
 }
 
 void randomiseGrid(int gridColumns, int gridRows){
