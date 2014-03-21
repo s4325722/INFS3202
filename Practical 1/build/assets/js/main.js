@@ -4545,7 +4545,7 @@ var $$ = {};
     new F.PlacesService(P.JsObject_JsObject(t1, [t2])).nearbySearch$2(new F.PlaceSearchRequest(t3), F.callback$closure());
   }, "call$0", "main$closure", 0, 0, null],
   callback: [function(results, $status, pagination) {
-    var t1, t2, i, t3, e;
+    var t1, t2, i, t3, t4, e;
     if (J.$eq($status, $.get$PlacesServiceStatus_OK())) {
       t1 = results.$$unsafe;
       t2 = J.getInterceptor$asx(t1);
@@ -4575,13 +4575,14 @@ var $$ = {};
             t3 = true;
           if (t3)
             break c$0;
-          t3 = t2.$index(t1, "length");
-          if (typeof t3 !== "number")
-            return H.iae(t3);
-          t3 = i >= t3;
-          if (t3)
+          t3 = "https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyCSc01anvKtXZ5Q_fGp7p8_2JbiWBtSAq4&" + "sensor=false&maxheight=400&photoreference=";
+          t4 = t2.$index(t1, "length");
+          if (typeof t4 !== "number")
+            return H.iae(t4);
+          t4 = i >= t4;
+          if (t4)
             H.throwExpression(P.RangeError$value(i));
-          t3 = C.JSString_methods.$add("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=", results._wrap$1(t2.$index(t1, i)).get$reference()) + "&sensor=false&key=AIzaSyCSc01anvKtXZ5Q_fGp7p8_2JbiWBtSAq4";
+          t3 = C.JSString_methods.$add(t3, results._wrap$1(t2.$index(t1, i)).get$reference());
           e = document.createElement("img", null);
           J.set$src$x(e, t3);
           document.querySelector("#images").appendChild(e);

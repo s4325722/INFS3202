@@ -34,9 +34,9 @@ void callback(List<PlaceResult> results, PlacesServiceStatus status, PlaceSearch
         continue;
 
         var img = new ImageElement(
-            src: "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
-                  results[i].reference +
-                 "&sensor=false&key=AIzaSyCSc01anvKtXZ5Q_fGp7p8_2JbiWBtSAq4"
+            src: "https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyCSc01anvKtXZ5Q_fGp7p8_2JbiWBtSAq4&" +
+                 "sensor=false&maxheight=400&photoreference=" +
+                  results[i].reference
         );
 
         querySelector("#images").nodes.add(img);
