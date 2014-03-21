@@ -1,12 +1,16 @@
 import 'dart:html';
+import 'dart:js';
 import 'package:google_maps/google_maps.dart';
 import 'package:google_maps/google_maps_places.dart';
 
 GMap map;
 InfoWindow infowindow;
 PlacesService service;
+JsObject masonry;
 
 void main(){
+  masonry = new JsObject(context['Masonry'], [querySelector('#mason'), 100]);
+
   final st_lucia = new LatLng(-27.5000, 153.0000);
 
   map = new GMap(querySelector("#map"), new MapOptions()
@@ -19,8 +23,8 @@ void main(){
 
   final request = new PlaceSearchRequest()
     ..location = st_lucia
-    ..radius = 1500
-    ..types = ['store']
+    ..radius = 3500
+    ..types = ['restaurant']
   ;
 
   infowindow = new InfoWindow();
@@ -47,11 +51,21 @@ void placeDetailsCallback(PlaceResult result, PlacesServiceStatus status){
       PlacePhoto firstPhoto = result.photos[0];
 
       PhotoOptions photoOptions = new PhotoOptions()
-      ..maxHeight = 400
-      ..maxWidth = 400
+      ..maxHeight = 200
+      ..maxWidth = 200
       ;
 
-      querySelector("#images").nodes.add(new ImageElement(src: firstPhoto.getUrl(photoOptions)));
+      Element div = new DivElement()
+      ..className = 'item';
+
+
+      div.children.add(new ImageElement(src: firstPhoto.getUrl(photoOptions)));
+
+      querySelector("#mason").children.add(div);
+
+      masonry.callMethod("appended", [div]);
+
+      masonry.callMethod("layout", []);
     }
   }
 }
