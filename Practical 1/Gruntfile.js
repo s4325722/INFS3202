@@ -14,23 +14,6 @@ module.exports = function(grunt) {
                 dest: 'build/<%= pkg.name %>.min.js'
             }
         },
-//        include_bootstrap: {
-//            files: {
-//                'build/assets/css/styles.css': 'src/less/manifest.less'
-//            }
-//        },
-
-        include_bootstrap: {
-            options: {
-                // All options are passed on to the grunt-contrib-less task
-            },
-            production: {
-                files: {
-                    'build/assets/css/styles.css': 'src/less/manifest.less'
-                }
-            }
-        },
-
         less: {
 //            development: {
 //                options: {
@@ -45,7 +28,7 @@ module.exports = function(grunt) {
                     cleancss: true
                 },
                 files: {
-                    //'build/assets/css/styles.css': 'src/less/manifest.less'
+                    'build/assets/css/styles.css': 'src/less/manifest.less'
                 }
             }
         },
@@ -77,12 +60,11 @@ module.exports = function(grunt) {
     // Load the plugin that provides the "uglify" task.
     //grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.loadNpmTasks('grunt-include-bootstrap');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-dart2js');
     grunt.loadNpmTasks('grunt-contrib-copy');
 
     // Default task(s).
-    grunt.registerTask('default', [/*'uglify'*/ 'include_bootstrap', 'less', 'dart2js', 'copy']);
+    grunt.registerTask('default', ['less', 'dart2js', 'copy']);
 
 };
