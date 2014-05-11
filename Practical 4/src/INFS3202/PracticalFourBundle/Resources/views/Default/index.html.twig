@@ -1,5 +1,25 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundation 5</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/bmatznerfoundation/css/foundation.min.css') }}" />
+</head>
+<body>
+
 <ul>
-{% for deal in deals %}
-    <li>{{ deal.title }}</li>
-{% endfor %}
+    {% for deal in deals %}
+        <li>{{ deal.title }}</li>
+    {% endfor %}
 </ul>
+
+<script type="text/javascript" src="{{ asset('bundles/bmatznerjquery/js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/bmatznerfoundation/js/foundation.min.js') }}"></script>
+<script>
+    $(document).foundation();
+</script>
+</body>
+</html>

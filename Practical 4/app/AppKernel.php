@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new INFS3202\PracticalFourBundle\INFS3202PracticalFourBundle(),
+            new Bmatzner\FoundationBundle\BmatznerFoundationBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
