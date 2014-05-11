@@ -1,0 +1,5 @@
+infs3202_practical_four:
+    resource: "@INFS3202PracticalFourBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
