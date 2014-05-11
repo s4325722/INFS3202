@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundation 5</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/bmatznerfoundation/css/foundation.min.css') }}" />
+    <style type="text/css">
+        #login {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+
+            /*
+            *  Where the magic happens
+            *  Centering method from CSS Tricks
+            *  http://css-tricks.com/centering-percentage-widthheight-elements/
+            */
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+<div class="row">
+        <div class="small-12 medium-3 columns centered panel" id="login">
+            <div class="row">
+                <h1>Login</h1>
+                <hr />
+            </div>
+            <form method="post" action="{{ path('infs3202_practicalfour_default_login') }}">
+                <div class="row">
+                    <div class="small-3 columns centered">
+                        <label for="username" class="right inline">Username</label>
+                    </div>
+                    <div class="small-9 columns">
+                        <input type="text" id="username" placeholder="Username">
+                        <small class="error">Invalid entry</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-3 columns centered">
+                        <label for="password" class="right inline">Password</label>
+                    </div>
+                    <div class="small-9 columns">
+                        <input type="password" id="password" placeholder="">
+                        <small class="error">Invalid entry</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-6 columns right">
+                        <div class="row collapse">
+                            <div class="small-5 columns">
+                                <input type="submit" class="button postfix" value="Login" />
+                            </div>
+                            <div class="small-5 columns">
+                                <a href="{{ path('infs3202_practicalfour_default_index') }}" class="button postfix">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="{{ asset('bundles/bmatznerfoundation/js/vendor/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/bmatznerfoundation/js/foundation.min.js') }}"></script>
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+</html>
