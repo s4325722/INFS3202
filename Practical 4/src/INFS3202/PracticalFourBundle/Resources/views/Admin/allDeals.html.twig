@@ -19,19 +19,19 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
             {% for deal in deals %}
+            <tr>
                 <td>Proprietor</td>
                 <td>Location</td>
                 <td>{{ deal.title }}</td>
                 <td>{{ deal.price }}</td>
                 <td>{{ deal.description }}</td>
                 <td>{{ deal.banner }}</td>
+            </tr>
             {% endfor %}
-        </tr>
         </tbody>
     </table>
-    
+
 </div>
 {{ include('@INFS3202PracticalFour/Partial/scripts.html.twig') }}
 {{ include('@INFS3202PracticalFour/Partial/footer.html.twig') }}

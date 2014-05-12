@@ -23,16 +23,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
         {% for deal in deals %}
+            <tr>
             <td>Proprietor</td>
             <td>Location</td>
             <td>{{ deal.title }}</td>
             <td>{{ deal.price }}</td>
             <td>{{ deal.description }}</td>
             <td>{{ deal.banner }}</td>
-        {% endfor %}
         </tr>
+        {% endfor %}
         </tbody>
     </table>
 
