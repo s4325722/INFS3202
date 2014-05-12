@@ -16,12 +16,13 @@
     {% endfor %}
 </ul>
 {{ include('@INFS3202PracticalFour/Partial/scripts.html.twig') }}
-{% if not app.user %}
 <script type="text/javascript">
     $('#search-button').click(function(event){
         $('#search-form').submit();
     });
-
+</script>
+{% if not app.user %}
+<script type="text/javascript">
     $( "#login-form" ).submit(function( event ) {
 
         // Stop form from submitting normally
