@@ -44,7 +44,10 @@ class DefaultController extends Controller
         $repository = $this->getDoctrine()->getRepository('INFS3202PracticalFourBundle:Deal');
         $deals = $repository->findByCustomCriteria($criteria, true, $excludedCriteria);
 
-        return array('deals' => $deals, 'excluded' => $excludedCriteria);
+        $categoryRepository = $this->getDoctrine()->getRepository('INFS3202PracticalFourBundle:Category');
+        $categories = $categoryRepository->findAll();
+
+        return array('deals' => $deals, 'excluded' => $excludedCriteria, 'categories' => $categories);
     }
 
 //    /**

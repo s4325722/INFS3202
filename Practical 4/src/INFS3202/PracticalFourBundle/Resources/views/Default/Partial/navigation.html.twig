@@ -28,11 +28,11 @@
         <form id="search-form" method="post" action="{{ path('infs3202_practicalfour_default_index') }}">
             <ul class="right">
                 <li>
-                    <span class="nav-label">Name</span>
+                    <span class="nav-label">Deal</span>
                 </li>
                 <li class="has-form">
                     <div class="row collapse">
-                        <input name="search_name" type="text" placeholder="Name" style="width: 120px;">
+                        <input name="search_name" type="text" placeholder="Name" style="width: 120px;" value="{{  app.request.get('search_name') }}">
                     </div>
                 </li>
                 <li>
@@ -40,7 +40,7 @@
                 </li>
                 <li class="has-form">
                     <div class="row collapse">
-                        <input name="search_location" type="text" placeholder="Location" style="width: 100px;">
+                        <input name="search_location" type="text" placeholder="Location" style="width: 100px;" value="{{  app.request.get('search_location') }}">
                     </div>
                 </li>
                 <li>
@@ -49,11 +49,10 @@
                 <li class="has-form">
                     <div class="row collapse">
                         <select name="search_category" style="width: 85px;">
-                            <option value="Any" selected>Any</option>
-                            <option value="IT">Husker</option>
-                            <option value="Food">Starbuck</option>
-                            <option value="hotdog">Hot Dog</option>
-                            <option value="apollo">Apollo</option>
+                            <option value="Any"{% if app.request.get('search_category') == 'Any' or not app.request.get('search_category') %} selected{% endif %}>Any</option>
+                            {% for category in categories %}
+                                <option value="{{ category.name }}"{% if app.request.get('search_category') == category.name %} selected{% endif %}>{{ category.description }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </li>
@@ -62,7 +61,7 @@
                 </li>
                 <li class="has-form">
                     <div class="row collapse">
-                        <input name="search_price" type="text" placeholder="Price" style="text-align: right; width: 80px;">
+                        <input name="search_price" type="text" placeholder="Price" style="text-align: right; width: 80px;" value="{{  app.request.get('search_price') }}">
                     </div>
                 </li>
                 <li class="has-form">

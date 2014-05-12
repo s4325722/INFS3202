@@ -24,6 +24,7 @@ class LoadUserData implements FixtureInterface, OrderedFixtureInterface
         $proprietor = new Proprietor();
         $proprietor->setName("A Salt & Battery");
         $proprietor->setPhone("");
+        $proprietor->setAddresss('St. Lucia');
 
         $manager->persist($proprietor);
         $manager->flush();
@@ -31,6 +32,7 @@ class LoadUserData implements FixtureInterface, OrderedFixtureInterface
         $proprietor = new Proprietor();
         $proprietor->setName("Thai Tornado");
         $proprietor->setPhone("");
+        $proprietor->setAddresss('Hawken Village');
 
         $manager->persist($proprietor);
         $manager->flush();
@@ -38,6 +40,7 @@ class LoadUserData implements FixtureInterface, OrderedFixtureInterface
         $proprietor = new Proprietor();
         $proprietor->setName("Gumby's Gumbo");
         $proprietor->setPhone("");
+        $proprietor->setAddresss('Auchenflower');
 
         $manager->persist($proprietor);
         $manager->flush();
@@ -45,6 +48,7 @@ class LoadUserData implements FixtureInterface, OrderedFixtureInterface
         $proprietor = new Proprietor();
         $proprietor->setName("Massive Computers");
         $proprietor->setPhone("");
+        $proprietor->setAddresss('Indooroopilly');
 
         $manager->persist($proprietor);
         $manager->flush();

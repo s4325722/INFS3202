@@ -10,12 +10,13 @@
 </div>
     {% endfor %}
 {% endif %}
-
-    <table>
+<div style="text-align: center;">
+    <table style="margin-top: 25px; margin-left: auto; margin-right: auto;">
         <thead>
         <tr>
             <th width="200">Proprietor</th>
             <th width="100">Location</th>
+            <th>Category</th>
             <th>Deal</th>
             <th width="50">Price</th>
             <th width="250">Description</th>
@@ -25,8 +26,9 @@
         <tbody>
         {% for deal in deals %}
             <tr>
-            <td>Proprietor</td>
-            <td>Location</td>
+            <td>{{ deal.proprietor.name }}</td>
+            <td>{{ deal.proprietor.addresss }}</td>
+            <td>{{ deal.category.name }}</td>
             <td>{{ deal.title }}</td>
             <td>{{ deal.price }}</td>
             <td>{{ deal.description }}</td>
@@ -35,7 +37,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+</div>
 </div>
 {{ include('@INFS3202PracticalFour/Partial/scripts.html.twig') }}
 <script type="text/javascript">

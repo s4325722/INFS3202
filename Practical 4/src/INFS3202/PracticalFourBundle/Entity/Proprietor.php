@@ -27,6 +27,13 @@ class Proprietor
     private $phone;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="addresss", type="string", length=150, nullable=true)
+     */
+    private $addresss;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -35,15 +42,7 @@ class Proprietor
      */
     private $id;
 
-    /**
-     * @var \INFS3202\PracticalFourBundle\Entity\Location
-     *
-     * @ORM\OneToOne(targetEntity="INFS3202\PracticalFourBundle\Entity\Location")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="proprietor_id")
-     * })
-     */
-    private $location;
+
 
     /**
      * Set name
@@ -92,6 +91,29 @@ class Proprietor
     }
 
     /**
+     * Set addresss
+     *
+     * @param string $addresss
+     * @return Proprietor
+     */
+    public function setAddresss($addresss)
+    {
+        $this->addresss = $addresss;
+
+        return $this;
+    }
+
+    /**
+     * Get addresss
+     *
+     * @return string 
+     */
+    public function getAddresss()
+    {
+        return $this->addresss;
+    }
+
+    /**
      * Get id
      *
      * @return integer 
@@ -99,28 +121,5 @@ class Proprietor
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set locationn
-     *
-     * @param \INFS3202\PracticalFourBundle\Entity\Location $location
-     * @return Deal
-     */
-    public function setLocation(\INFS3202\PracticalFourBundle\Entity\Location $location = null)
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
-    /**
-     * Get location
-     *
-     * @return \INFS3202\PracticalFourBundle\Entity\Location
-     */
-    public function getLocation()
-    {
-        return $this->location;
     }
 }

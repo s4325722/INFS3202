@@ -7,11 +7,12 @@
             <li class="current"><a href="#">Deals</a></li>
         </ul>
     </nav>
-    <table style="margin-top: 25px;">
+    <table style="margin-top: 25px; margin-left: auto; margin-right: auto;">
         <thead>
         <tr>
             <th width="200">Proprietor</th>
             <th width="100">Location</th>
+            <th>Category</th>
             <th>Deal</th>
             <th width="50">Price</th>
             <th width="250">Description</th>
@@ -19,16 +20,17 @@
         </tr>
         </thead>
         <tbody>
-            {% for deal in deals %}
+        {% for deal in deals %}
             <tr>
-                <td>Proprietor</td>
-                <td>Location</td>
+                <td>{{ deal.proprietor.name }}</td>
+                <td>{{ deal.proprietor.addresss }}</td>
+                <td>{{ deal.category.name }}</td>
                 <td>{{ deal.title }}</td>
                 <td>{{ deal.price }}</td>
                 <td>{{ deal.description }}</td>
                 <td>{{ deal.banner }}</td>
             </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
 

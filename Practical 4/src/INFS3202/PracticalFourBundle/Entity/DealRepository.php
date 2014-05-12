@@ -42,8 +42,8 @@ class DealRepository extends EntityRepository {
 
             $qb = $this->getEntityManager()->createQueryBuilder();
             $qb = $qb->select('d')->from('INFS3202PracticalFourBundle:Deal', 'd');
-            //$qb = $qb->innerJoin('d.proprietor', 'p', Join::ON, 'd.proprietor_id = p.id');
-            //$qb = $qb->innerJoin('p.location', 'l', Join::ON, 'p.proprietor_id = p.id');
+            $qb = $qb->leftJoin('d.proprietor', 'p');
+            $qb = $qb->leftJoin('d.category', 'c');
 
             if(array_key_exists('title', $customCriteria) && !empty($customCriteria['title'])){
                 $qb = $qb->andWhere($qb->expr()->like('d.title', ':title'));
@@ -51,14 +51,11 @@ class DealRepository extends EntityRepository {
             }
 
             if(array_key_exists('location', $customCriteria) && !empty($customCriteria['location'])){
-                $qb = $qb->leftJoin('d.proprietor', 'p');
-                $qb = $qb->leftJoin('p.location', 'l');
-                $qb = $qb->andWhere($qb->expr()->like('l.address', ':location'));
+                $qb = $qb->andWhere($qb->expr()->like('p.addresss', ':location'));
                 $qb->setParameter('location', '%'.$customCriteria['location'].'%');
             }
 
             if(array_key_exists('category', $customCriteria) && !empty($customCriteria['category'])){
-                $qb = $qb->leftJoin('d.category', 'c');
                 $qb = $qb->andWhere($qb->expr()->like('c.name', ':category'));
                 $qb->setParameter('category', '%'.$customCriteria['category'].'%');
             }
