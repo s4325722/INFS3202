@@ -12,7 +12,7 @@
 
 <ul>
     {% for deal in deals %}
-        <li>{{ deal.title }}</li>
+        <li>{{ deal.title }}: {{ deal.description }}</li>
     {% endfor %}
 </ul>
 {{ include('@INFS3202PracticalFour/Partial/scripts.html.twig') }}

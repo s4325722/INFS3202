@@ -36,7 +36,7 @@ class DefaultController extends Controller
             if($location != null && !empty($location))
                 $criteria['location'] = $location;
 
-            if($category != null && !empty($category))
+            if($category != null && !empty($category) && $category != 'Any')
                 $criteria['category'] = $category;
         }
 
