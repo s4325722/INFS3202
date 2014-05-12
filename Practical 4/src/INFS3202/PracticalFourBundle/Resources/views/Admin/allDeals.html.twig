@@ -1,16 +1,17 @@
 {{ include('@INFS3202PracticalFour/Partial/header.html.twig') }}
 {{ include('@INFS3202PracticalFour/Admin/Partial/navigation.html.twig') }}
-<nav>
-    <ul class="breadcrumbs">
-        <li><a href="#">Admin</a></li>
-        <li><a href="#">Deals</a></li>
-        <li class="current"><a href="#">All</a></li>
+<div style="margin-top: 50px;">
+    <nav>
+        <ul class="breadcrumbs">
+            <li><a href="#">Admin</a></li>
+            <li class="current"><a href="#">Deals</a></li>
+        </ul>
+    </nav>
+    <ul>
+        {% for deal in deals %}
+            <li>{{ deal.title }}</li>
+        {% endfor %}
     </ul>
-</nav>
-<ul>
-    {% for deal in deals %}
-        <li>{{ deal.title }}</li>
-    {% endfor %}
-</ul>
+</div>
 {{ include('@INFS3202PracticalFour/Partial/scripts.html.twig') }}
 {{ include('@INFS3202PracticalFour/Partial/footer.html.twig') }}

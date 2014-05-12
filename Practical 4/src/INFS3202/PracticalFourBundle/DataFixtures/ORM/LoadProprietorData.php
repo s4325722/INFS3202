@@ -27,6 +27,27 @@ class LoadUserData implements FixtureInterface, OrderedFixtureInterface
 
         $manager->persist($proprietor);
         $manager->flush();
+
+        $proprietor = new Proprietor();
+        $proprietor->setName("Thai Tornado");
+        $proprietor->setPhone("");
+
+        $manager->persist($proprietor);
+        $manager->flush();
+
+        $proprietor = new Proprietor();
+        $proprietor->setName("Gumby's Gumbo");
+        $proprietor->setPhone("");
+
+        $manager->persist($proprietor);
+        $manager->flush();
+
+        $proprietor = new Proprietor();
+        $proprietor->setName("Massive Computers");
+        $proprietor->setPhone("");
+
+        $manager->persist($proprietor);
+        $manager->flush();
     }
 
     /**

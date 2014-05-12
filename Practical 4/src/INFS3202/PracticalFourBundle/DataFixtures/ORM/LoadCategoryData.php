@@ -27,6 +27,14 @@ class LoadCategoryData implements FixtureInterface, OrderedFixtureInterface
 
         $manager->persist($category);
         $manager->flush();
+
+
+        $category = new Category();
+        $category->setName("IT");
+        $category->setDescription("IT Sales & Service");
+
+        $manager->persist($category);
+        $manager->flush();
     }
 
     /**

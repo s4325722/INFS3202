@@ -23,10 +23,34 @@ class LoadLocationData implements FixtureInterface, OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $proprietorRepository = $manager->getRepository("INFS3202PracticalFourBundle:Proprietor");
-        $proprietor = $proprietorRepository->findOneBy(array('name' => 'A Salt & Battery'));
 
+        $proprietor = $proprietorRepository->findOneBy(array('name' => 'A Salt & Battery'));
         $location = new Location();
         $location->setAddress("Hawken Village");
+        $location->setProprietor($proprietor);
+
+        $manager->persist($location);
+        $manager->flush();
+
+        $proprietor = $proprietorRepository->findOneBy(array('name' => 'Thai Tornado'));
+        $location = new Location();
+        $location->setAddress("Toowong Village");
+        $location->setProprietor($proprietor);
+
+        $manager->persist($location);
+        $manager->flush();
+
+        $proprietor = $proprietorRepository->findOneBy(array('name' => "Gumby's Gumbo"));
+        $location = new Location();
+        $location->setAddress("Auchenflower");
+        $location->setProprietor($proprietor);
+
+        $manager->persist($location);
+        $manager->flush();
+
+        $proprietor = $proprietorRepository->findOneBy(array('name' => "Massive Computers"));
+        $location = new Location();
+        $location->setAddress("St. Lucia");
         $location->setProprietor($proprietor);
 
         $manager->persist($location);
