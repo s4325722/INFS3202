@@ -1,6 +1,7 @@
 
 {{ include('@INFS3202PracticalFour/Partial/header.html.twig') }}
 {{ include('@INFS3202PracticalFour/Default/Partial/navigation.html.twig') }}
+<div style="margin-top: 50px;">
 {% if excluded|length %}
     {% for criteria, value in excluded %}
 <div data-alert class="alert-box warning">
@@ -10,11 +11,31 @@
     {% endfor %}
 {% endif %}
 
-<ul>
+<table>
+    <thead>
+    <tr>
+        <th width="200">Proprietor</th>
+        <th width="100">Location</th>
+        <th>Deal</th>
+        <th width="50">Price</th>
+        <th width="250">Description</th>
+        <th width="150">Image URL</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
     {% for deal in deals %}
-        <li>{{ deal.title }}: {{ deal.description }}</li>
+        <td>Proprietor</td>
+        <td>Location</td>
+        <td>{{ deal.title }}</td>
+        <td>{{ deal.price }}</td>
+        <td>{{ deal.description }}</td>
+        <td>{{ deal.banner }}</td>
     {% endfor %}
-</ul>
+    </tr>
+    </tbody>
+</table>
+</div>
 {{ include('@INFS3202PracticalFour/Partial/scripts.html.twig') }}
 <script type="text/javascript">
     $('#search-button').click(function(event){

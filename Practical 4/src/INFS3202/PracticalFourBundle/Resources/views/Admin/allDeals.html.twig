@@ -7,11 +7,30 @@
             <li class="current"><a href="#">Deals</a></li>
         </ul>
     </nav>
-    <ul>
-        {% for deal in deals %}
-            <li>{{ deal.title }}</li>
-        {% endfor %}
-    </ul>
+    <table style="margin-top: 25px;">
+        <thead>
+        <tr>
+            <th width="200">Proprietor</th>
+            <th width="100">Location</th>
+            <th>Deal</th>
+            <th width="50">Price</th>
+            <th width="250">Description</th>
+            <th width="150">Image URL</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for deal in deals %}
+                <td>Proprietor</td>
+                <td>Location</td>
+                <td>{{ deal.title }}</td>
+                <td>{{ deal.price }}</td>
+                <td>{{ deal.description }}</td>
+                <td>{{ deal.banner }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
 </div>
 {{ include('@INFS3202PracticalFour/Partial/scripts.html.twig') }}
 {{ include('@INFS3202PracticalFour/Partial/footer.html.twig') }}
