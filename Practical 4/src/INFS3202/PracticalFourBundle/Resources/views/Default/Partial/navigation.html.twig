@@ -1,0 +1,77 @@
+<nav class="top-bar" data-topbar>
+    <ul class="title-area">
+        <li class="name">
+            <h1><a href="{{ path('infs3202_practicalfour_default_index') }}">Dealio</a></h1>
+        </li>
+    </ul>
+    <section class="top-bar-section">
+        <ul class="right">
+            <li class="divider"></li>
+            {% if app.user %}
+                <li class="has-dropdown">
+                    <a href="#">{{ app.user.username }} </a>
+                    <ul class="dropdown">
+                        <li class="divider"></li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li><a href="{{ path('infs3202_practicalfour_admin_index') }}">Configuration</a></li>
+                            <li class="divider"></li>
+                        {% endif %}
+                        <li><a href="{{ path('logout') }}">Logout</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li>
+                    <a href="#" data-reveal-id="login-modal">Login</a>
+                </li>
+            {% endif %}
+        </ul>
+        <form id="search-form" method="post" action="{{ path('infs3202_practicalfour_default_index') }}">
+            <ul class="right">
+                <li>
+                    <span class="nav-label">Name</span>
+                </li>
+                <li class="has-form">
+                    <div class="row collapse">
+                        <input name="search_name" type="text" placeholder="Name" style="width: 120px;">
+                    </div>
+                </li>
+                <li>
+                    <span class="nav-label">Location</span>
+                </li>
+                <li class="has-form">
+                    <div class="row collapse">
+                        <input name="search_location" type="text" placeholder="Location" style="width: 100px;">
+                    </div>
+                </li>
+                <li>
+                    <span class="nav-label">Category</span>
+                </li>
+                <li class="has-form">
+                    <div class="row collapse">
+                        <select name="search_category" style="width: 85px;">
+                            <option value="Any" selected>Any</option>
+                            <option value="husker">Husker</option>
+                            <option value="starbuck">Starbuck</option>
+                            <option value="hotdog">Hot Dog</option>
+                            <option value="apollo">Apollo</option>
+                        </select>
+                    </div>
+                </li>
+                <li>
+                    <span class="nav-label">Price</span>
+                </li>
+                <li class="has-form">
+                    <div class="row collapse">
+                        <input name="search_price" type="text" placeholder="Price" style="text-align: right; width: 80px;">
+                    </div>
+                </li>
+                <li class="has-form">
+                    <a id="search-button" href="#" class="alert button expand">Search</a>
+                </li>
+            </ul>
+        </form>
+    </section>
+</nav>
+{% if not app.user %}
+{{ include('@INFS3202PracticalFour/Partial/login.html.twig') }}
+{% endif %}

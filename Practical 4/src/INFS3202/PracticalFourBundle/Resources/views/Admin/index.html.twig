@@ -1,7 +1,5 @@
-{% extends "::base.html.twig" %}
-
-{% block title %}INFS3202PracticalFourBundle:Admin:index{% endblock %}
-
-{% block body %}
-<h1>Welcome to the Admin:index page</h1>
-{% endblock %}
+{{ include('@INFS3202PracticalFour/Partial/header.html.twig') }}
+{{ include('@INFS3202PracticalFour/Admin/Partial/navigation.html.twig') }}
+<h1>Edit stuff</h1>
+{{ include('@INFS3202PracticalFour/Partial/scripts.html.twig') }}
+{{ include('@INFS3202PracticalFour/Partial/footer.html.twig') }}

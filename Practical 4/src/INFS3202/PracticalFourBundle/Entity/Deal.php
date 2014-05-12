@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Deal
  *
  * @ORM\Table(name="deal", indexes={@ORM\Index(name="deal_proprietor_idx", columns={"proprietor_id"}), @ORM\Index(name="deal_category_idx", columns={"category_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="INFS3202\PracticalFourBundle\Entity\DealRepository")
  */
 class Deal
 {
@@ -66,7 +66,7 @@ class Deal
     /**
      * @var \INFS3202\PracticalFourBundle\Entity\Category
      *
-     * @ORM\ManyToOne(targetEntity="INFS3202\PracticalFourBundle\Entity\Category")
+     * @ORM\OneToOne(targetEntity="INFS3202\PracticalFourBundle\Entity\Category")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * })
@@ -76,7 +76,7 @@ class Deal
     /**
      * @var \INFS3202\PracticalFourBundle\Entity\Proprietor
      *
-     * @ORM\ManyToOne(targetEntity="INFS3202\PracticalFourBundle\Entity\Proprietor")
+     * @ORM\OneToOne(targetEntity="INFS3202\PracticalFourBundle\Entity\Proprietor")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="proprietor_id", referencedColumnName="id")
      * })

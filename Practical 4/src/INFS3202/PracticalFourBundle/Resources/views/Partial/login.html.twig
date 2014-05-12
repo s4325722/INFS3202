@@ -1,0 +1,23 @@
+<div id="login-modal" class="reveal-modal tiny" data-reveal>
+    <h2>Login</h2>
+    <hr/>
+    <form id="login-form" method="post" action="{{ path('login_check') }}" style="margin: 0; padding: 0;">
+        <div id="login-error-container" class="row" style="display: none;">
+            <div data-alert class="alert-box alert">
+                <span id="login-error-message"></span>
+            </div>
+        </div>
+        <div class="row">
+            <input name="_username" type="text" placeholder="Username">
+        </div>
+        <div class="row">
+            <input name="_password" type="password" placeholder="Password">
+        </div>
+        <div class="row">
+            <div style="text-align: center;">
+                <input type="submit" value="Go!" class="button" />
+            </div>
+        </div>
+    </form>
+    <a id="login-modal-close" class="close-reveal-modal">&#215;</a>
+</div>

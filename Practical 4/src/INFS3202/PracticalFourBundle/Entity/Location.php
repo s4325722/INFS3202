@@ -31,7 +31,7 @@ class Location
     /**
      * @var \INFS3202\PracticalFourBundle\Entity\Proprietor
      *
-     * @ORM\ManyToOne(targetEntity="INFS3202\PracticalFourBundle\Entity\Proprietor")
+     * @ORM\OneToOne(targetEntity="INFS3202\PracticalFourBundle\Entity\Proprietor")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="proprietor_id", referencedColumnName="id")
      * })

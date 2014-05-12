@@ -2,4 +2,11 @@ infs3202_practical_four:
     resource: "@INFS3202PracticalFourBundle/Controller/"
     type:     annotation
     prefix:   /
+login:
+    path: /
+    defaults: { _controller: INFS3202PracticalFourBundle:Default:index }
+login_check:
+    path: /login_check
+logout:
+    path: /logout
 

@@ -1,0 +1,30 @@
+<nav class="top-bar" data-topbar>
+    <ul class="title-area">
+        <li class="name">
+            <h1><a href="{{ path('infs3202_practicalfour_default_index') }}">Dealio</a></h1>
+        </li>
+    </ul>
+    <section class="top-bar-section">
+        <ul class="right">
+                <li class="has-dropdown">
+                    <a href="#">Manage</a>
+                    <ul class="dropdown">
+                        <li class="divider"></li>
+                        <li><label>Deals</label></li>
+                        <li><a href="{{ path('infs3202_practicalfour_admin_alldeals') }}">All</a></li>
+                        <li><a href="#">Create</a></li>
+                    </ul>
+                </li>
+            <li class="divider"></li>
+                <li class="has-dropdown">
+                    <a href="#">{{ app.user.username }} </a>
+                    <ul class="dropdown">
+                        <li class="divider"></li>
+                            <li><a href="{{ path('infs3202_practicalfour_admin_index') }}">Configuration</a></li>
+                            <li class="divider"></li>
+                        <li><a href="{{ path('logout') }}">Logout</a></li>
+                    </ul>
+                </li>
+        </ul>
+    </section>
+</nav>

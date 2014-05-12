@@ -35,7 +35,15 @@ class Proprietor
      */
     private $id;
 
-
+    /**
+     * @var \INFS3202\PracticalFourBundle\Entity\Location
+     *
+     * @ORM\OneToOne(targetEntity="INFS3202\PracticalFourBundle\Entity\Location")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id", referencedColumnName="proprietor_id")
+     * })
+     */
+    private $location;
 
     /**
      * Set name
@@ -91,5 +99,28 @@ class Proprietor
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set locationn
+     *
+     * @param \INFS3202\PracticalFourBundle\Entity\Location $location
+     * @return Deal
+     */
+    public function setLocation(\INFS3202\PracticalFourBundle\Entity\Location $location = null)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return \INFS3202\PracticalFourBundle\Entity\Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }
