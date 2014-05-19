@@ -22,6 +22,7 @@ security:
                 check_path: login_check
                 success_handler: infs3202.practicalfour.security.authentication_handler
                 failure_handler: infs3202.practicalfour.security.authentication_handler
+                require_previous_session: false
             logout:
                 path: /logout
                 target: /
