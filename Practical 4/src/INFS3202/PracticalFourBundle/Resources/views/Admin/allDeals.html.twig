@@ -1,39 +1,45 @@
 {{ include('@INFS3202PracticalFour/Partial/header.html.twig') }}
 {{ include('@INFS3202PracticalFour/Admin/Partial/navigation.html.twig') }}
+<nav>
+    <ul class="breadcrumbs">
+        <li><a href="#">Admin</a></li>
+        <li class="current"><a href="#">Deals</a></li>
+    </ul>
+</nav>
 <div style="margin-top: 50px;">
-    <nav>
-        <ul class="breadcrumbs">
-            <li><a href="#">Admin</a></li>
-            <li class="current"><a href="#">Deals</a></li>
-        </ul>
-    </nav>
     <table style="margin-top: 25px; margin-left: auto; margin-right: auto;">
         <thead>
         <tr>
+            <th>Deal</th>
+            <th>Category</th>
+            <th width="50">Price</th>
             <th width="200">Proprietor</th>
             <th width="100">Location</th>
-            <th>Category</th>
-            <th>Deal</th>
-            <th width="50">Price</th>
             <th width="250">Description</th>
-            <th width="150">Image URL</th>
+            <th width="50">Edit</th>
+            <th width="50">Delete</th>
         </tr>
         </thead>
         <tbody>
         {% for deal in deals %}
             <tr>
+                <td>{{ deal.title }}</td>
+                <td>{{ deal.category.name }}</td>
+                <td>{{ deal.price }}</td>
                 <td>{{ deal.proprietor.name }}</td>
                 <td>{{ deal.proprietor.addresss }}</td>
-                <td>{{ deal.category.name }}</td>
-                <td>{{ deal.title }}</td>
-                <td>{{ deal.price }}</td>
                 <td>{{ deal.description }}</td>
-                <td>{{ deal.banner }}</td>
+                <td style="text-align: center;"><a href="{{ path('infs3202_practicalfour_admin_updatedeal',{id:deal.id}) }}"><i class="fi-pencil"></i></a></td>
+                <td style="text-align: center;"><a href="{{ path('infs3202_practicalfour_admin_deletedeal',{id:deal.id}) }}" data-confirm><i class="fi-trash"></i></a></td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
 </div>
 {{ include('@INFS3202PracticalFour/Partial/scripts.html.twig') }}
+<script type="text/javascript">
+    $(document).confirmWithReveal({
+        modal_class: 'tiny'
+    })
+</script>
 {{ include('@INFS3202PracticalFour/Partial/footer.html.twig') }}

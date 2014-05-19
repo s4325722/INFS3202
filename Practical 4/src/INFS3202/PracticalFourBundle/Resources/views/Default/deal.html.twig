@@ -1,0 +1,77 @@
+{{ include('@INFS3202PracticalFour/Partial/header.html.twig') }}
+{{ include('@INFS3202PracticalFour/Default/Partial/navigation.html.twig') }}
+<div style="margin-top: 50px;">
+    <div class="row">
+        <div class="large-3 columns">
+            <div>
+                <img src="{{ deal.banner }}" alt="{{ deal.title }}"/>
+            </div>
+            <div style="text-align: center;">
+                <h2 style="color: #43ac6a">${{ deal.price }}</h2>
+            </div>
+        </div>
+        <div class="large-9 columns">
+            <div class="large-6 columns"><h2>{{ deal.title }}</h2></div>
+            <div class="large-6 columns" style="text-align: right;"><h5>{{ expires }} Remaining</h5></div>
+            <hr/>
+            <div class="panel callout">
+                <div class="row">
+                    <h4>By {{ deal.proprietor.name }}</h4>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <p>At {{ deal.proprietor.addresss }}</p>
+                    </div>
+                </div>
+            </div>
+            <p>{{ deal.description }}</p>
+            <hr/>
+            <h3>Reviews</h3>
+            {% for review in reviews %}
+            <div class="panel">
+                <h4>{{ review.title }}</h4>
+                <p>{{ review.description }}</p>
+                <h6>By {{ review.author }}</h6>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{{ include('@INFS3202PracticalFour/Partial/scripts.html.twig') }}
+<script type="text/javascript">
+    $('#search-button').click(function (event) {
+        $('#search-form').submit();
+    });
+</script>
+{% if not app.user %}
+    <script type="text/javascript">
+        $("#login-form").submit(function (event) {
+
+            // Stop form from submitting normally
+            event.preventDefault();
+
+            // Get some values from elements on the page:
+            var $form = $(this);
+            var url = $form.attr("action");
+
+            // Send the data using post
+            var posting = $.post(url, $form.serialize());
+            $('#login-error-container').hide();
+
+            // Put the results in a div
+            posting.done(function (data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    $('#login-error-message').text(data.message);
+                    $('#login-error-container').show();
+                }
+            });
+        });
+
+        $('#login-modal-close').click(function (event) {
+            $('#login-error-container').hide();
+        });
+    </script>
+{% endif %}
+{{ include('@INFS3202PracticalFour/Partial/footer.html.twig') }}

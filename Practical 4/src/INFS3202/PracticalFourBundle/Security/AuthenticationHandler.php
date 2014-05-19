@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Blake
- * Date: 12/05/2014
- * Time: 7:28 AM
- */
 
 namespace INFS3202\PracticalFourBundle\Security;
 

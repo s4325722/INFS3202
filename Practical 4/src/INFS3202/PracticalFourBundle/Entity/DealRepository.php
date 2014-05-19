@@ -31,7 +31,7 @@ class DealRepository extends EntityRepository {
             if($resultCount == 0){
                 $exclude = null;
 
-                while($exclude = array_pop($criteria)){
+                while(($exclude = array_pop($criteria)) != null){
                     if(array_key_exists($exclude, $customCriteria)){
                         $excluded[$criteriaDescription[$exclude]] = $customCriteria[$exclude];
                         unset($customCriteria[$exclude]);
@@ -60,17 +60,25 @@ class DealRepository extends EntityRepository {
                 $qb->setParameter('category', '%'.$customCriteria['category'].'%');
             }
 
-            if(array_key_exists('price_min', $customCriteria) && !empty($customCriteria['price_min'])){
-                $qb = $qb->andWhere($qb->expr()->gt('d.price', ':price_min'));
+            if(
+                array_key_exists('price_min', $customCriteria) && !empty($customCriteria['price_min']) &&
+                array_key_exists('price_max', $customCriteria) && !empty($customCriteria['price_max']) &&
+                $customCriteria['price_min'] == $customCriteria['price_max']
+            ){
+                $qb = $qb->andWhere($qb->expr()->eq('d.price', ':price_min'));
                 $qb->setParameter('price_min', $customCriteria['price_min']);
+            }else{
+
+                if(array_key_exists('price_min', $customCriteria) && !empty($customCriteria['price_min'])){
+                    $qb = $qb->andWhere($qb->expr()->gt('d.price', ':price_min'));
+                    $qb->setParameter('price_min', $customCriteria['price_min']);
+                }
+
+                if(array_key_exists('price_max', $customCriteria) && !empty($customCriteria['price_max'])){
+                    $qb = $qb->andWhere($qb->expr()->lt('d.price', ':price_max'));
+                    $qb->setParameter('price_max', $customCriteria['price_max']);
+                }
             }
-
-            if(array_key_exists('price_max', $customCriteria) && !empty($customCriteria['price_max'])){
-                $qb = $qb->andWhere($qb->expr()->lt('d.price', ':price_max'));
-                $qb->setParameter('price_min', $customCriteria['price_min']);
-            }
-
-
 
         }while(($resultCount = count($qb->getQuery()->getResult())) == 0);
 

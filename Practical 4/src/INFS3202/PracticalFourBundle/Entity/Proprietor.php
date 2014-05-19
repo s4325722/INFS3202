@@ -22,7 +22,7 @@ class Proprietor
     /**
      * @var string
      *
-     * @ORM\Column(name="phone", type="string", length=8, nullable=true)
+     * @ORM\Column(name="phone", type="string", length=10, nullable=true)
      */
     private $phone;
 

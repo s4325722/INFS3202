@@ -1,7 +1,8 @@
 imports:
     - { resource: config.yml }
 
-#framework:
+framework:
+    validation:      { enable_annotations: true }
 #    validation:
 #        cache: apc
 

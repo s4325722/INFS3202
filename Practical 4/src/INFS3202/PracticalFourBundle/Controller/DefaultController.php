@@ -10,8 +10,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
 {
@@ -38,6 +40,28 @@ class DefaultController extends Controller
 
             if($category != null && !empty($category) && $category != 'Any')
                 $criteria['category'] = $category;
+
+            $priceCaptures = array();
+
+            if (preg_match('/(<|>)?\s*?\$?([\d.]+)/m', $price, $priceCaptures)) {
+                if(!empty($priceCaptures[1])){
+                    switch($priceCaptures[1]){
+                        case '<':
+                            $criteria['price_min'] = 0;
+                            $criteria['price_max'] = $priceCaptures[2];
+                            break;
+                        case '>':
+                            $criteria['price_min'] = $priceCaptures[2];
+                            $criteria['price_max'] = PHP_INT_MAX;
+                            break;
+                    }
+                }else{
+                    $criteria['price_min'] = $priceCaptures[2];
+                    $criteria['price_max'] = $priceCaptures[2];
+                }
+            } else {
+                $result = "";
+            }
         }
 
         $excludedCriteria = array();
@@ -48,6 +72,34 @@ class DefaultController extends Controller
         $categories = $categoryRepository->findAll();
 
         return array('deals' => $deals, 'excluded' => $excludedCriteria, 'categories' => $categories);
+    }
+
+    /**
+     * @Route("/deal/{id}")
+     * @Template()
+     */
+    public function dealAction($id)
+    {
+        $em = $this->getDoctrine();
+
+        $dealRepository = $em->getRepository('INFS3202PracticalFourBundle:Deal');
+        $deal = $dealRepository->find($id);
+
+        $categoryRepository = $em->getRepository('INFS3202PracticalFourBundle:Category');
+        $categories = $categoryRepository->findAll();
+
+        $reviewRepository = $em->getRepository('INFS3202PracticalFourBundle:Review');
+        $reviews = $reviewRepository->findBy(['deal' => $deal]);
+
+        $now = new \DateTime();
+        $remaining = $deal->getTimestampEnd()->diff($now);
+
+        $expires = sprintf("%d Days and %d Hours", $remaining->d, $remaining->h);
+
+        if($deal == null)
+            throw new NotFoundHttpException();
+
+        return array('deal' => $deal, 'categories' => $categories, 'reviews' => $reviews, 'expires' => $expires);
     }
 
 //    /**
