@@ -82,7 +82,6 @@ class CreateDealModel extends ContainerAware {
     /**
      * @var string
      * @Assert\NotBlank()
-     * @Assert\URL()
      */
     protected $dealBanner;
 
