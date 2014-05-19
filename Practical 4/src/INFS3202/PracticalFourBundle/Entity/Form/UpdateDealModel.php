@@ -330,13 +330,22 @@ class UpdateDealModel extends ContainerAware {
         if(trim($this->getReviews()) == ''){
             $context->addViolationAt('reviews', 'This value must contain at least two valid reviews');
         }else{
+
             $reviews = explode("\n", $this->getReviews());
+
+            $validReviews = 0;
 
             for($i = 0; $i < count($reviews); $i++){
                 $line = $i+1;
                 if (!preg_match('/\A.+?\|.+?\|.+?\s*?\Z/', $reviews[$i])) {
                     $context->addViolationAt('reviews', "This value contains invalid formatting on line $line");
+                }else{
+                    $validReviews++;
                 }
+            }
+
+            if($validReviews < 2){
+                $context->addViolationAt('reviews', 'This value must contain at least two valid reviews');
             }
         }
     }
