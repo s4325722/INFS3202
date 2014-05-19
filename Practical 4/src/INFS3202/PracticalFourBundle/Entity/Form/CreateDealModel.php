@@ -301,7 +301,7 @@ class CreateDealModel extends ContainerAware {
 
             for($i = 0; $i < count($reviews); $i++){
                 $line = $i+1;
-                if (!preg_match('/\A[\w ]+?\|[\w ]+?\|[\w ]+?\s*?\Z/', $reviews[$i])) {
+                if (!preg_match('/\A.+?\|.+?\|.+?\s*?\Z/', $reviews[$i])) {
                     $context->addViolationAt('reviews', "This value contains invalid formatting on line $line");
                 }
             }
