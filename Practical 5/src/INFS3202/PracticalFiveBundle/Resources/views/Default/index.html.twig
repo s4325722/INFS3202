@@ -1,0 +1,114 @@
+{{ include('@INFS3202PracticalFive/Partial/header.html.twig') }}
+<style type="text/css">
+    .item {
+        background-color: #f4f4f4;
+        margin-bottom: 5px;
+    }
+</style>
+{{ include('@INFS3202PracticalFive/Default/Partial/navigation.html.twig') }}
+<div id="search-excluded">
+</div>
+<div style="margin-top: 50px;">
+    <div class="row">
+        <div id="deals" class="large-12">
+            {% for deal in deals %}
+                <div class="item" style="text-align: center;">
+                    <a href="{{ path('infs3202_practicalfive_default_deal',{id:deal.id}) }}"><img src="{{ deal.banner }}" alt="{{ deal.title }}"/></a>
+                    <h2 style="color: #43ac6a">${{ deal.price }}</h2>
+                    <p>{{ deal.title }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{{ include('@INFS3202PracticalFive/Partial/scripts.html.twig') }}
+<script type="text/javascript" src="{{ asset('bundles/infs3202practicalfour/js/masonry.pkgd.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/infs3202practicalfour/js/imagesloaded.pkgd.min.js') }}"></script>
+<script type="text/javascript">
+    var container = document.querySelector('#deals');
+    var masonry;
+
+    imagesLoaded(container, function() {
+        masonry = new Masonry(container, {
+            columnWidth: 236,
+            gutter: 5,
+            itemSelector: '.item'
+        });
+    });
+
+    $('#search-button').click(function (event) {
+        var searchForm = $('#search-form');
+
+        $.ajax({
+            type: searchForm.attr('method'),
+            url: searchForm.attr('action'),
+            data: searchForm.serialize(),
+            success: function (data) {
+                $('#search-excluded').empty();
+
+                $.each(data.excluded, function(key, value){
+                    $('#search-excluded').append(
+                        $('<div data-alert class="alert-box warning">Ignoring ' + key + ' = ' + value + '," no matches found.<a href="#" class="close">&times;</a></div>')
+                    );
+                });
+
+                $('#deals').empty();
+
+                masonry.reloadItems();
+
+                $.each(data.results, function(key, value){
+                    var item = $(
+                            '<div class="item" style="text-align: center;">' +
+                                    '   <a href="'+ value.link +'">' +
+                                    '<img src="' + value.banner + '" alt="' + value.name +'"/>' +
+                                    '</a>' +
+                                    '<h2 style="color: #43ac6a">$' + value.price + '</h2>' +
+                                    '<p>' + value.name + '</p>' +
+                                    '</div>'
+                    );
+
+                    $(container).append(item);
+                    masonry.appended(item);
+                });
+
+                imagesLoaded(container, function() {
+                    masonry.layout();
+                });
+            }
+        });
+
+        event.preventDefault();
+    });
+</script>
+{% if not app.user %}
+    <script type="text/javascript">
+        $("#login-form").submit(function (event) {
+
+            // Stop form from submitting normally
+            event.preventDefault();
+
+            // Get some values from elements on the page:
+            var $form = $(this);
+            var url = $form.attr("action");
+
+            // Send the data using post
+            var posting = $.post(url, $form.serialize());
+            $('#login-error-container').hide();
+
+            // Put the results in a div
+            posting.done(function (data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    $('#login-error-message').text(data.message);
+                    $('#login-error-container').show();
+                }
+            });
+        });
+
+        $('#login-modal-close').click(function (event) {
+            $('#login-error-container').hide();
+        });
+    </script>
+{% endif %}
+{{ include('@INFS3202PracticalFive/Partial/footer.html.twig') }}

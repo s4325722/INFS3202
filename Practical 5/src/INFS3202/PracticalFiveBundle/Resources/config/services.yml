@@ -1,0 +1,10 @@
+parameters:
+#    infs3202.practicalfour.example.class: INFS3202\PracticalFiveBundle\Example
+
+services:
+    infs3202.practicalfive.security.authentication_handler:
+            class: INFS3202\PracticalFiveBundle\Security\AuthenticationHandler
+            public: false
+            arguments:
+                - @router
+                - @session

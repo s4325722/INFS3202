@@ -1,0 +1,190 @@
+{% form_theme form '@INFS3202PracticalFive/overrides.html.twig' %}
+
+{{ include('@INFS3202PracticalFive/Partial/header.html.twig') }}
+{{ include('@INFS3202PracticalFive/Admin/Partial/navigation.html.twig') }}
+<nav>
+    <ul class="breadcrumbs">
+        <li><a href="#">Admin</a></li>
+        <li class="current"><a href="#">Create deal</a></li>
+    </ul>
+</nav>
+<div style="margin-top: 50px;">
+    <div class="row">
+        <div class="large-8 large-offset-2 columns">
+            <h2>Create a new deal</h2>
+            <hr/>
+            <form id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" method="{{ form.vars.method }}" action="{{ form.vars.action }}">
+                <div class="row">
+                    <div class="large-9 columns{% if not form.dealTitle.vars.valid %} error{% endif %}">
+                        <label>Title</label>
+                        <input id="{{ form.dealTitle.vars.id }}" name="{{ form.dealTitle.vars.full_name }}" type="text" value="{{ form.dealTitle.vars.value }}" />
+                        {{ form_errors(form.dealTitle) }}
+                    </div>
+                    <div class="large-3 columns{% if not form.dealPrice.vars.valid %} error{% endif %}">
+                        <div class="row collapse">
+                            <label>Price</label>
+                            <div class="small-2 columns">
+                                <span class="prefix">$</span>
+                            </div>
+                            <div class="small-10 columns">
+                                <input id="{{ form.dealPrice.vars.id }}" name="{{ form.dealPrice.vars.full_name }}" type="text" placeholder="0.00" style="text-align: right;" value="{{ form.dealPrice.vars.value }}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-6 columns{% if not form.dealStartDate.vars.valid %} error{% endif %}">
+                        <label>Start Date</label>
+                        {#<input id="{{ form.dealStartDate.vars.id }}" name="{{ form.dealStartDate.vars.full_name }}" type="datetime" value="">#}
+                        {{ form_widget(form.dealStartDate) }}
+                        {{ form_errors(form.dealStartDate) }}
+                    </div>
+                    <div class="large-6 columns{% if not form.dealEndDate.vars.valid %} error{% endif %}">
+                        <label>End Date</label>
+                        {#<input id="{{ form.dealEndDate.vars.id }}" name="{{ form.dealEndDate.vars.full_name }}" type="datetime" value="{{ form.dealEndDate.vars.data }}">#}
+                        {{ form_widget(form.dealEndDate ) }}
+                        {{ form_errors(form.dealEndDate) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div class="row collapse{% if not form.dealBanner.vars.valid %} error{% endif %}">
+                            <label>Banner</label>
+                            <div class="large-1 columns">
+                                <span class="prefix">URL:</span>
+                            </div>
+                            <div class="large-11 columns">
+                                <input id="{{ form.dealBanner.vars.id }}" name="{{ form.dealBanner.vars.full_name }}" type="text" value="{{ form.dealBanner.vars.value }}" />
+                                {{ form_errors(form.dealBanner) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns{% if not form.dealDescription.vars.valid %} error{% endif %}">
+                        <label>Description</label>
+                        <textarea id="{{ form.dealDescription.vars.id }}" name="{{ form.dealDescription.vars.full_name }}">{{ form.dealDescription.vars.value }}</textarea>
+                        {{ form_errors(form.dealDescription) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns{% if not form.reviews.vars.valid %} error{% endif %}">
+                        <label>Reviews</label>
+                        <textarea id="{{ form.reviews.vars.id }}" name="{{ form.reviews.vars.full_name }}" placeholder="Author | Title | Body" rows="8">{{ form.reviews.vars.value }}</textarea>
+                        {{ form_errors(form.reviews) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-6 columns{% if not form.categoryName.vars.valid %} error{% endif %}">
+                        <label>Category</label>
+                        <select id="{{ form.categoryName.vars.id }}_selector">
+                            <option value="">Create new category...</option>
+                            <option selected disabled>──────────</option>
+                            {% for category in categories %}
+                                <option value="{{ category.name }}"{% if form.categoryName.vars.value == category.name %} selected{% endif %}>{{ category.description }}</option>
+                            {% endfor %}
+                        </select>
+                        {{ form_errors(form.categoryName) }}
+                    </div>
+                    <div class="large-6 columns{% if not form.proprietorName.vars.valid %} error{% endif %}">
+                        <label>Proprietor</label>
+                        <select id="{{ form.proprietorName.vars.id }}_selector">
+                            <option value="">Create new proprietor...</option>
+                            <option selected disabled>──────────</option>
+                            {% for proprietor in proprietors %}
+                                <option value="{{ proprietor.name }}"{% if form.proprietorName.vars.value == proprietor.name %} selected{% endif %}>{{ proprietor.name }}</option>
+                            {% endfor %}
+                        </select>
+                        {{ form_errors(form.proprietorName) }}
+                    </div>
+                </div>
+                <div id="{{ form.categoryName.vars.id }}_container" class="row collapse"{% if category_exists %} style="display: none;"{% endif %}>
+                    <div class="large-12 columns">
+                        <fieldset>
+                            <legend>Category</legend>
+                            <div class="row">
+                                <div class="large-4 columns{% if not form.categoryName.vars.valid %} error{% endif %}">
+                                    <label>Name</label>
+                                    <input id="{{ form.categoryName.vars.id }}" name="{{ form.categoryName.vars.full_name }}" type="text" value="{{ form.categoryName.vars.value }}" />
+                                    {{ form_errors(form.categoryName) }}
+                                </div>
+                                <div class="large-8 columns{% if not form.categoryDescription.vars.valid %} error{% endif %}">
+                                    <label>Description</label>
+                                    <input id="{{ form.categoryDescription.vars.id }}" name="{{ form.categoryDescription.vars.full_name }}" type="text" value="{{ form.categoryDescription.vars.value }}" />
+                                    {{ form_errors(form.categoryDescription) }}
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div id="{{ form.proprietorName.vars.id }}_container" class="row collapse"{% if proprietor_exists %} style="display: none;"{% endif %}>
+                    <div class="large-12 columns">
+                        <fieldset>
+                            <legend>Proprietor</legend>
+                            <div class="row">
+                                <div class="large-8 columns{% if not form.proprietorName.vars.valid %} error{% endif %}">
+                                    <label>Name</label>
+                                    <input id="{{ form.proprietorName.vars.id }}" name="{{ form.proprietorName.vars.full_name }}" type="text" value="{{ form.proprietorName.vars.value }}" />
+                                    {{ form_errors(form.proprietorName) }}
+                                </div>
+                                <div class="large-4 columns{% if not form.proprietorPhoneNumber.vars.valid %} error{% endif %}">
+                                    <label>Phone</label>
+                                    <input id="{{ form.proprietorPhoneNumber.vars.id }}" name="{{ form.proprietorPhoneNumber.vars.full_name }}" type="text" value="{{ form.proprietorPhoneNumber.vars.value }}" />
+                                    {{ form_errors(form.proprietorPhoneNumber) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="large-12 columns{% if not form.proprietorAddress.vars.valid %} error{% endif %}">
+                                    <label>Address</label>
+                                    <input id="{{ form.proprietorAddress.vars.id }}" name="{{ form.proprietorAddress.vars.full_name }}" type="text" value="{{ form.proprietorAddress.vars.value }}" />
+                                    {{ form_errors(form.proprietorAddress) }}
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns text-right">
+                            <button type="submit" value="Submit">Submit</button>
+                    </div>
+                </div>
+                {{ form_widget(form._token) }}
+            </form>
+        </div>
+    </div>
+</div>
+{{ include('@INFS3202PracticalFive/Partial/scripts.html.twig') }}
+<script type="text/javascript">
+    $('#{{ form.dealStartDate.vars.id }}').fdatepicker({
+        format: 'dd/mm/yyyy'
+    });
+
+    $('#{{ form.dealEndDate.vars.id }}').fdatepicker({
+        format: 'dd/mm/yyyy'
+    });
+
+    $('#{{ form.categoryName.vars.id }}_selector').change(function(){
+        $this = $(this);
+
+        if($this.val() == ''){
+            $('#{{ form.categoryName.vars.id }}').val('');
+            $('#{{ form.categoryName.vars.id }}_container').show();
+        }else{
+            $('#{{ form.categoryName.vars.id }}').val($this.val());
+            $('#{{ form.categoryName.vars.id }}_container').hide();
+        }
+    });
+
+    $('#{{ form.proprietorName.vars.id }}_selector').change(function(){
+        $this = $(this);
+
+        if($this.val() == ''){
+            $('#{{ form.proprietorName.vars.id }}').val('');
+            $('#{{ form.proprietorName.vars.id }}_container').show();
+        }else{
+            $('#{{ form.proprietorName.vars.id }}').val($this.val());
+            $('#{{ form.proprietorName.vars.id }}_container').hide();
+        }
+    });
+</script>
+{{ include('@INFS3202PracticalFive/Partial/footer.html.twig') }}

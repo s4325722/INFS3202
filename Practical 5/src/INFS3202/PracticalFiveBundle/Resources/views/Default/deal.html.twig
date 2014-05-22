@@ -1,0 +1,147 @@
+{{ include('@INFS3202PracticalFive/Partial/header.html.twig') }}
+{{ include('@INFS3202PracticalFive/Default/Partial/navigation.html.twig') }}
+<div style="margin-top: 50px;">
+    <div class="row">
+        <div class="large-3 columns">
+            <div>
+                <img src="{{ deal.banner }}" alt="{{ deal.title }}"/>
+            </div>
+            <div style="text-align: center;">
+                <h2 style="color: #43ac6a;">${{ deal.price }}</h2>
+            </div>
+        </div>
+        <div class="large-9 columns">
+            <div class="large-6 columns"><h2>{{ deal.title }}</h2></div>
+            <div class="large-6 columns" style="text-align: right;"><h5 style="margin-top: 1.2em">{{ expires }} Remaining</h5></div>
+            <hr/>
+            <div class="panel callout">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <h4>By {{ deal.proprietor.name }}</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <p>At {{ deal.proprietor.addresss }}</p>
+                    </div>
+                </div>
+            </div>
+            <p>{{ deal.description }}</p>
+            <hr/>
+            <dl class="tabs" data-tab>
+                <dd class="active"><a href="#panel2-1">Reviews</a></dd>
+                <dd><a href="#panel2-2">Comments</a></dd>
+            </dl>
+            <div class="tabs-content">
+                <div class="content active" id="panel2-1">
+                    {% for review in reviews %}
+                        <div style="background-color: #fafafa; padding: 10px; margin-bottom: 5px;">
+                            <h4>{{ review.title }}</h4>
+                            <p>{{ review.description }}</p>
+                            <h6>By {{ review.author }}</h6>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="content" id="panel2-2">
+                    <div id="comments">
+                    {% for comment in comments %}
+                        <div style="background-color: #fafafa; padding: 10px; margin-bottom: 5px;">
+                            <span>{{ comment.text }}</span>
+                        </div>
+                    {% endfor %}
+                    </div>
+                    <hr/>
+                    <form id="deal_comment_form" name="deal_comment_form" method="post" action="{{ path('infs3202_practicalfive_default_deal_comment',{id:deal.id}) }}">
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <label>Add Comment</label>
+                                <textarea id="deal_comment_text" name="deal_comment_text" placeholder="Enter your comment"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-2 columns right">
+                                <a id="deal_comment_cancel" href="#" class="button small secondary">Cancel</a>
+                            </div>
+                            <div class="large-2 columns right">
+                                <a id="deal_comment_submit" href="#" class="button small">Submit</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ include('@INFS3202PracticalFive/Partial/scripts.html.twig') }}
+<script type="text/javascript">
+    $('#search-button').click(function(event){
+        $('#search-form').submit();
+        event.preventDefault();
+    });
+
+    $('#deal_comment_cancel').click(function(event){
+        $('#deal_comment_text').val('');
+        event.preventDefault();
+    });
+
+    $('#deal_comment_submit').click(function(event){
+        var commentForm = $('#deal_comment_form');
+
+        $.ajax({
+            type: commentForm.attr('method'),
+            url: commentForm.attr('action'),
+            data: commentForm.serialize(),
+            success: function (data) {
+                if(data.comments.length == 0)
+                    return;
+
+                $('#comments').empty();
+
+                $.each(data.comments, function(key, value){
+                    $('#comments').append(
+                        $(
+                            '<div style="background-color: #fafafa; padding: 10px; margin-bottom: 5px;">' +
+                                '<span>' + value + '</span>' +
+                            '</div>'
+                        )
+                    );
+                });
+            }
+        });
+
+        $('#deal_comment_text').val('');
+        event.preventDefault();
+    });
+</script>
+{% if not app.user %}
+    <script type="text/javascript">
+        $("#login-form").submit(function (event) {
+
+            // Stop form from submitting normally
+            event.preventDefault();
+
+            // Get some values from elements on the page:
+            var $form = $(this);
+            var url = $form.attr("action");
+
+            // Send the data using post
+            var posting = $.post(url, $form.serialize());
+            $('#login-error-container').hide();
+
+            // Put the results in a div
+            posting.done(function (data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    $('#login-error-message').text(data.message);
+                    $('#login-error-container').show();
+                }
+            });
+        });
+
+        $('#login-modal-close').click(function (event) {
+            $('#login-error-container').hide();
+        });
+    </script>
+{% endif %}
+{{ include('@INFS3202PracticalFive/Partial/footer.html.twig') }}

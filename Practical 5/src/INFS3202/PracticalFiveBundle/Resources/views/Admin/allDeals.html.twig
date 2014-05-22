@@ -1,0 +1,62 @@
+{{ include('@INFS3202PracticalFive/Partial/header.html.twig') }}
+{{ include('@INFS3202PracticalFive/Admin/Partial/navigation.html.twig') }}
+<nav>
+    <ul class="breadcrumbs">
+        <li><a href="#">Admin</a></li>
+        <li class="current"><a href="#">Deals</a></li>
+    </ul>
+</nav>
+<div style="margin-top: 50px;">
+    <table style="margin-top: 25px; margin-left: auto; margin-right: auto;">
+        <thead>
+        <tr>
+            <th>Deal</th>
+            <th>Category</th>
+            <th width="50">Price</th>
+            <th width="200">Proprietor</th>
+            <th width="100">Location</th>
+            <th width="250">Description</th>
+            <th width="50">Edit</th>
+            <th width="50">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for deal in deals %}
+            <tr>
+                <td>{{ deal.title }}</td>
+                <td>{{ deal.category.name }}</td>
+                <td>{{ deal.price }}</td>
+                <td>{{ deal.proprietor.name }}</td>
+                <td>{{ deal.proprietor.addresss }}</td>
+                <td>{{ deal.description }}</td>
+                <td style="text-align: center;"><a href="{{ path('infs3202_practicalfive_admin_updatedeal',{id:deal.id}) }}"><i class="fi-pencil"></i></a></td>
+                <td style="text-align: center;"><a href="{{ path('infs3202_practicalfive_admin_deletedeal',{id:deal.id}) }}" data-confirm><i class="fi-trash"></i></a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br />
+    <div class="row">
+        <div class="large-8 columns">
+            <h3>Sample Images</h3>
+            <pre>
+                http://infs3202-007.uqcloud.net/practical4/bundles/infs3202practicalfive/images/a.jpg
+                http://infs3202-007.uqcloud.net/practical4/bundles/infs3202practicalfive/images/b.jpg
+                http://infs3202-007.uqcloud.net/practical4/bundles/infs3202practicalfive/images/c.jpg
+                http://infs3202-007.uqcloud.net/practical4/bundles/infs3202practicalfive/images/d.jpg
+                http://infs3202-007.uqcloud.net/practical4/bundles/infs3202practicalfive/images/e.jpg
+                http://infs3202-007.uqcloud.net/practical4/bundles/infs3202practicalfive/images/f.jpg
+                http://infs3202-007.uqcloud.net/practical4/bundles/infs3202practicalfive/images/g.jpg
+                http://infs3202-007.uqcloud.net/practical4/bundles/infs3202practicalfive/images/h.jpg
+                http://infs3202-007.uqcloud.net/practical4/bundles/infs3202practicalfive/images/i.jpg
+            </pre>
+        </div>
+    </div>
+</div>
+{{ include('@INFS3202PracticalFive/Partial/scripts.html.twig') }}
+<script type="text/javascript">
+    $(document).confirmWithReveal({
+        modal_class: 'tiny'
+    })
+</script>
+{{ include('@INFS3202PracticalFive/Partial/footer.html.twig') }}

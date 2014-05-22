@@ -1,0 +1,12 @@
+infs3202_practical_four:
+    resource: "@INFS3202PracticalFiveBundle/Controller/"
+    type:     annotation
+    prefix:   /
+login:
+    path: /
+    defaults: { _controller: INFS3202PracticalFiveBundle:Default:index }
+login_check:
+    path: /login_check
+logout:
+    path: /logout
+
