@@ -42,7 +42,7 @@
 
         $.ajax({
             type: searchForm.attr('method'),
-            url: searchForm.attr('action'),
+            url: '{{ path('infs3202_practicalfive_default_search') }}',
             data: searchForm.serialize(),
             success: function (data) {
                 $('#search-excluded').empty();
