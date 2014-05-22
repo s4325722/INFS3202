@@ -37,6 +37,7 @@
     });
 
     $('#search-button').click(function (event) {
+        event.preventDefault();
         var searchForm = $('#search-form');
 
         $.ajax({
@@ -77,7 +78,7 @@
             }
         });
 
-        event.preventDefault();
+        return false;
     });
 </script>
 {% if not app.user %}
