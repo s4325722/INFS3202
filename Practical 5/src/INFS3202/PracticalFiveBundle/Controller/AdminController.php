@@ -6,8 +6,8 @@ use INFS3202\PracticalFiveBundle\Entity\Deal;
 use INFS3202\PracticalFiveBundle\Entity\Form\CreateDealModel;
 use INFS3202\PracticalFiveBundle\Entity\Form\UpdateDealModel;
 use INFS3202\PracticalFiveBundle\Entity\Review;
-use Proxies\__CG__\INFS3202\PracticalFourBundle\Entity\Category;
-use Proxies\__CG__\INFS3202\PracticalFourBundle\Entity\Proprietor;
+use INFS3202\PracticalFiveBundle\Entity\Category;
+use INFS3202\PracticalFiveBundle\Entity\Proprietor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -86,6 +86,11 @@ class AdminController extends Controller
                     $proprietor->setName($createDealModel->getProprietorName());
                     $proprietor->setPhone($createDealModel->getProprietorPhoneNumber());
                     $proprietor->setAddresss($createDealModel->getProprietorAddress());
+
+                    $coordinates = self::geocodeAddress($createDealModel->getProprietorAddress());
+                    $proprietor->setLatitude($coordinates['latitude']);
+                    $proprietor->setLongitude($coordinates['longitude']);
+
                     $em->persist($proprietor);
                 }
 
@@ -233,6 +238,11 @@ class AdminController extends Controller
                     $proprietor->setName($updateDealModel->getProprietorName());
                     $proprietor->setPhone($updateDealModel->getProprietorPhoneNumber());
                     $proprietor->setAddresss($updateDealModel->getProprietorAddress());
+
+                    $coordinates = self::geocodeAddress($updateDealModel->getProprietorAddress());
+                    $proprietor->setLatitude($coordinates['latitude']);
+                    $proprietor->setLongitude($coordinates['longitude']);
+
                     $em->persist($proprietor);
                 }
 
@@ -298,5 +308,25 @@ class AdminController extends Controller
         $model['form'] = $form->createView();
 
         return $model;
+    }
+
+    private static function geocodeAddress($address){
+        $coordinates = ['latitude' => null, 'longitude' => null];
+
+        if(!empty($address)){
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, sprintf('http://maps.googleapis.com/maps/api/geocode/json?address=%s', urlencode($address)));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $response = json_decode(curl_exec($ch), true);
+
+            if(count($response['results']) > 0){
+                $geometry = $response['results'][0]['geometry'];
+
+                $coordinates['latitude'] = $geometry['location']['lat'];
+                $coordinates['longitude'] = $geometry['location']['lng'];
+            }
+        }
+
+        return $coordinates;
     }
 }

@@ -1,76 +1,78 @@
-<nav class="top-bar" data-topbar>
-    <ul class="title-area">
-        <li class="name">
-            <h1><a href="{{ path('infs3202_practicalfive_default_index') }}">Dealio</a></h1>
-        </li>
-    </ul>
-    <section class="top-bar-section">
-        <ul class="right">
-            <li class="divider"></li>
-            {% if app.user %}
-                <li class="has-dropdown">
-                    <a href="#">{{ app.user.username }} </a>
-                    <ul class="dropdown">
-                        <li class="divider"></li>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <li><a href="{{ path('infs3202_practicalfive_admin_index') }}">Configuration</a></li>
-                            <li class="divider"></li>
-                        {% endif %}
-                        <li><a href="{{ path('logout') }}">Logout</a></li>
-                    </ul>
-                </li>
-            {% else %}
-                <li>
-                    <a href="#" data-reveal-id="login-modal">Login</a>
-                </li>
-            {% endif %}
+<div class="sticky">
+    <nav class="top-bar" data-topbar>
+        <ul class="title-area">
+            <li class="name">
+                <h1><a href="{{ path('infs3202_practicalfive_default_index') }}">Dealio</a></h1>
+            </li>
         </ul>
-        <form id="search-form" method="post" action="{{ path('infs3202_practicalfive_default_index') }}">
+        <section class="top-bar-section">
             <ul class="right">
-                <li>
-                    <span class="nav-label">Deal</span>
-                </li>
-                <li class="has-form">
-                    <div class="row collapse">
-                        <input name="search_name" type="text" placeholder="Name" style="width: 120px;" value="{{  app.request.get('search_name') }}">
-                    </div>
-                </li>
-                <li>
-                    <span class="nav-label">Location</span>
-                </li>
-                <li class="has-form">
-                    <div class="row collapse">
-                        <input name="search_location" type="text" placeholder="Location" style="width: 100px;" value="{{  app.request.get('search_location') }}">
-                    </div>
-                </li>
-                <li>
-                    <span class="nav-label">Category</span>
-                </li>
-                <li class="has-form">
-                    <div class="row collapse">
-                        <select name="search_category" style="width: 85px;">
-                            <option value="Any"{% if app.request.get('search_category') == 'Any' or not app.request.get('search_category') %} selected{% endif %}>Any</option>
-                            {% for category in categories %}
-                                <option value="{{ category.name }}"{% if app.request.get('search_category') == category.name %} selected{% endif %}>{{ category.description }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </li>
-                <li>
-                    <span class="nav-label">Price</span>
-                </li>
-                <li class="has-form">
-                    <div class="row collapse">
-                        <input name="search_price" type="text" placeholder="Price" style="text-align: right; width: 80px;" value="{{  app.request.get('search_price') }}">
-                    </div>
-                </li>
-                <li class="has-form">
-                    <a id="search-button" href="#" class="alert button expand">Search</a>
-                </li>
+                <li class="divider"></li>
+                {% if app.user %}
+                    <li class="has-dropdown">
+                        <a href="#">{{ app.user.username }} </a>
+                        <ul class="dropdown">
+                            <li class="divider"></li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li><a href="{{ path('infs3202_practicalfive_admin_index') }}">Configuration</a></li>
+                                <li class="divider"></li>
+                            {% endif %}
+                            <li><a href="{{ path('logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="#" data-reveal-id="login-modal">Login</a>
+                    </li>
+                {% endif %}
             </ul>
-        </form>
-    </section>
-</nav>
+            <form id="search-form" method="post" action="{{ path('infs3202_practicalfive_default_index') }}">
+                <ul class="right">
+                    <li>
+                        <span class="nav-label">Deal</span>
+                    </li>
+                    <li class="has-form">
+                        <div class="row collapse">
+                            <input name="search_name" type="text" placeholder="Name" style="width: 120px;" value="{{  app.request.get('search_name') }}">
+                        </div>
+                    </li>
+                    <li>
+                        <span class="nav-label">Location</span>
+                    </li>
+                    <li class="has-form">
+                        <div class="row collapse">
+                            <input name="search_location" type="text" placeholder="Location" style="width: 100px;" value="{{  app.request.get('search_location') }}">
+                        </div>
+                    </li>
+                    <li>
+                        <span class="nav-label">Category</span>
+                    </li>
+                    <li class="has-form">
+                        <div class="row collapse">
+                            <select name="search_category" style="width: 85px;">
+                                <option value="Any"{% if app.request.get('search_category') == 'Any' or not app.request.get('search_category') %} selected{% endif %}>Any</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.name }}"{% if app.request.get('search_category') == category.name %} selected{% endif %}>{{ category.description }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="nav-label">Price</span>
+                    </li>
+                    <li class="has-form">
+                        <div class="row collapse">
+                            <input name="search_price" type="text" placeholder="Price" style="text-align: right; width: 80px;" value="{{  app.request.get('search_price') }}">
+                        </div>
+                    </li>
+                    <li class="has-form">
+                        <a id="search-button" href="#" class="alert button expand">Search</a>
+                    </li>
+                </ul>
+            </form>
+        </section>
+    </nav>
+</div>
 {% if not app.user %}
 {{ include('@INFS3202PracticalFive/Partial/login.html.twig') }}
 {% endif %}

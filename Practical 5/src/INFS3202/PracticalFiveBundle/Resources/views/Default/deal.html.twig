@@ -1,4 +1,15 @@
 {{ include('@INFS3202PracticalFive/Partial/header.html.twig') }}
+<style type="text/css">
+    #map-thumb-canvas {
+        width: 100%;
+        height: 250px;
+    }
+
+    #map-directions-canvas {
+        width: 100%;
+        height: 400px;
+    }
+</style>
 {{ include('@INFS3202PracticalFive/Default/Partial/navigation.html.twig') }}
 <div style="margin-top: 50px;">
     <div class="row">
@@ -9,6 +20,7 @@
             <div style="text-align: center;">
                 <h2 style="color: #43ac6a;">${{ deal.price }}</h2>
             </div>
+            <div id="map-thumb-canvas" style="margin-top: 15px;"></div>
         </div>
         <div class="large-9 columns">
             <div class="large-6 columns"><h2>{{ deal.title }}</h2></div>
@@ -31,6 +43,7 @@
             <dl class="tabs" data-tab>
                 <dd class="active"><a href="#panel2-1">Reviews</a></dd>
                 <dd><a href="#panel2-2">Comments</a></dd>
+                <dd><a id="directions-link" href="#panel2-3">Directions</a></dd>
             </dl>
             <div class="tabs-content">
                 <div class="content active" id="panel2-1">
@@ -68,12 +81,98 @@
                         </div>
                     </form>
                 </div>
+                <div class="content" id="panel2-3">
+                    <div id="map-directions-canvas"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 {{ include('@INFS3202PracticalFive/Partial/scripts.html.twig') }}
 <script type="text/javascript">
+    var directionsDisplay;
+    var directionsService = new google.maps.DirectionsService();
+    var position = new google.maps.LatLng({{ deal.proprietor.latitude }}, {{ deal.proprietor.longitude }});
+    var origin = position;
+    var thumbMap;
+    var directionsMap;
+
+    function updateRoute(startPosition){
+
+        if(startPosition != null){
+            origin = startPosition;
+        }
+
+        directionsService.route({
+            origin: startPosition,
+            destination: position,
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC
+        },
+        function(result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(result);
+
+                var bounds = new google.maps.LatLngBounds();
+                bounds.extend(origin);
+                bounds.extend(position);
+
+                directionsMap.fitBounds(bounds);
+
+                var listener = google.maps.event.addListener(directionsMap, "idle", function() {
+                    if (directionsMap.getZoom() > 16) directionsMap.setZoom(16);
+                    google.maps.event.removeListener(listener);
+                });
+            }
+        });
+    }
+
+    function initialize() {
+        directionsDisplay = new google.maps.DirectionsRenderer();
+        var mapOptions = {
+            center: position,
+            zoom: 12,
+            disableDefaultUI: true
+        };
+
+        thumbMap = new google.maps.Map(document.getElementById("map-thumb-canvas"), mapOptions);
+        directionsMap = new google.maps.Map(document.getElementById("map-directions-canvas"), mapOptions);
+
+        directionsDisplay.setMap(directionsMap);
+
+        var thumbMarker = new google.maps.Marker({
+            position: position,
+            title:"{{ deal.title }}"
+        });
+
+        thumbMarker.setMap(thumbMap);
+
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                updateRoute(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
+            });
+        }
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    $("#directions-link").click(function(event) {
+        setTimeout(function(){
+            google.maps.event.trigger(directionsMap, 'resize');
+
+            var bounds = new google.maps.LatLngBounds();
+            bounds.extend(origin);
+            bounds.extend(position);
+
+            directionsMap.fitBounds(bounds);
+
+            var listener = google.maps.event.addListener(directionsMap, "idle", function() {
+                if (directionsMap.getZoom() > 16) directionsMap.setZoom(16);
+                google.maps.event.removeListener(listener);
+            });
+        }, 50);
+    });
+
     $('#search-button').click(function(event){
         $('#search-form').submit();
         event.preventDefault();

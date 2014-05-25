@@ -4,26 +4,148 @@
         background-color: #f4f4f4;
         margin-bottom: 5px;
     }
+
+    #map-canvas {
+        width: 220px;
+        height: 250px;
+    }
+
+    #map-places {
+        margin-top: 15px;
+    }
 </style>
 {{ include('@INFS3202PracticalFive/Default/Partial/navigation.html.twig') }}
 <div id="search-excluded">
 </div>
 <div style="margin-top: 50px;">
     <div class="row">
-        <div id="deals" class="large-12">
+        <div id="deals" class="large-9 columns">
             {% for deal in deals %}
-                <div class="item" style="text-align: center;">
-                    <a href="{{ path('infs3202_practicalfive_default_deal',{id:deal.id}) }}"><img src="{{ deal.banner }}" alt="{{ deal.title }}"/></a>
+                <div class="item" style="text-align: center;" data-location-lat="{{ deal.proprietor.latitude }}" data-location-lng="{{ deal.proprietor.longitude }}">
+                    <a class="deal-link" href="{{ path('infs3202_practicalfive_default_deal',{id:deal.id}) }}"><img src="{{ deal.banner }}" alt="{{ deal.title }}"/></a>
                     <h2 style="color: #43ac6a">${{ deal.price }}</h2>
-                    <p>{{ deal.title }}</p>
+                    <p class="deal-name">{{ deal.title }}</p>
                 </div>
             {% endfor %}
+        </div>
+        <div class="large-3 columns">
+            <div id="mapping">
+                <div id="map-canvas"></div>
+                {#<div id="map-places">
+                    <ul>
+                        {% for deal in deals %}
+                            <li>{{ deal.proprietor.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>#}
+            </div>
         </div>
     </div>
 </div>
 {{ include('@INFS3202PracticalFive/Partial/scripts.html.twig') }}
 <script type="text/javascript" src="{{ asset('bundles/infs3202practicalfive/js/masonry.pkgd.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/infs3202practicalfive/js/imagesloaded.pkgd.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/infs3202practicalfive/js/jquery.sticky.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/infs3202practicalfive/js/jquery.hoverintent.js') }}"></script>
+<script type="text/javascript">
+    var map;
+
+    function updateAllMarkers(){
+        var positions = [];
+        var bounds = new google.maps.LatLngBounds();
+
+        $('#deals div.item').each(function(){
+            $this = $(this);
+
+            if($this.data('marker') != null)
+                return;
+
+            var lat = $this.attr('data-location-lat');
+            var lng = $this.attr('data-location-lng');
+            var position = new google.maps.LatLng(lat, lng);
+
+            var marker = new google.maps.Marker({
+                position: position,
+                title: $this.find('p.deal-name').val()
+            });
+
+            positions.push(position);
+            marker.setMap(map);
+
+            $this.data('marker', marker);
+
+            $this.find('a.deal-link').hoverIntent({
+                over: restrictMarker,
+                out: unrestirctMarker,
+                timeout: 0,
+                interval: 100
+            })
+        })
+
+        for (var i = 0; i < positions.length; i++) {
+            bounds.extend(positions[i]);
+        }
+
+        map.fitBounds(bounds);
+
+        var listener = google.maps.event.addListener(map, "idle", function() {
+            if (map.getZoom() > 16) map.setZoom(16);
+            google.maps.event.removeListener(listener);
+        });
+    }
+
+    function restrictMarker(){
+        $this = $(this.parentNode);
+
+        var marker = $this.data('marker');
+
+        if(marker == null)
+            return;
+
+        $('#deals div.item').each(function(){
+            $this = $(this);
+
+            if($this.data('marker') != marker)
+                $this.data('marker').setMap(null);
+        })
+    }
+
+    function unrestirctMarker(){
+        $('#deals div.item').each(function(){
+            $this = $(this);
+            $this.data('marker').setMap(map);
+        })
+    }
+
+    function removeMarker(){
+        $this = $(this);
+
+        var marker = $this.data('marker');
+
+        if(marker == null)
+            return;
+
+        marker.setMap(null);
+    }
+
+    function removeAllMarkers(){
+        $('#deals div.item').each(removeMarker);
+    }
+
+    function initialize() {
+        var mapOptions = {
+            zoom: 8,
+            disableDefaultUI: true
+        };
+
+        map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        updateAllMarkers();
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    $("#mapping").sticky({topSpacing:95});
+</script>
 <script type="text/javascript">
     var container = document.querySelector('#deals');
     var masonry;
@@ -53,6 +175,8 @@
                     );
                 });
 
+                removeAllMarkers();
+
                 $('#deals').empty();
 
                 masonry.reloadItems();
@@ -60,13 +184,16 @@
                 $.each(data.results, function(key, value){
                     var item = $(
                             '<div class="item" style="text-align: center;">' +
-                                    '   <a href="'+ value.link +'">' +
+                                    '<a class="deal-link" href="'+ value.link +'">' +
                                     '<img src="' + value.banner + '" alt="' + value.name +'"/>' +
                                     '</a>' +
                                     '<h2 style="color: #43ac6a">$' + value.price + '</h2>' +
-                                    '<p>' + value.name + '</p>' +
+                                    '<p class="deal-name">' + value.name + '</p>' +
                                     '</div>'
                     );
+
+                    item.attr('data-location-lat', value.lat);
+                    item.attr('data-location-lng', value.lng);
 
                     $(container).append(item);
                     masonry.appended(item);
@@ -75,12 +202,15 @@
                 imagesLoaded(container, function() {
                     masonry.layout();
                 });
+
+                updateAllMarkers();
             }
         });
 
         return false;
     });
 </script>
+
 {% if not app.user %}
     <script type="text/javascript">
         $("#login-form").submit(function (event) {

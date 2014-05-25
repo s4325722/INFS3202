@@ -133,10 +133,13 @@ class DefaultController extends Controller
 
         foreach($deals as $deal){
             $data['results'][] = [
+                'id' => $deal->getId(),
                 'link' => $this->generateUrl('infs3202_practicalfive_default_deal', ['id' => $deal->getId()]),
                 'name' => $deal->getTitle(),
                 'price' => $deal->getPrice(),
-                'banner' => $deal->getBanner()
+                'banner' => $deal->getBanner(),
+                'lat' => $deal->getProprietor()->getLatitude(),
+                'lng' => $deal->getProprietor()->getLongitude()
             ];
         }
 
