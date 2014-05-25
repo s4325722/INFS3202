@@ -49,10 +49,11 @@
 <script type="text/javascript" src="{{ asset('bundles/infs3202practicalfive/js/jquery.hoverintent.js') }}"></script>
 <script type="text/javascript">
     var map;
+    var bounds;
 
     function updateAllMarkers(){
         var positions = [];
-        var bounds = new google.maps.LatLngBounds();
+        bounds = new google.maps.LatLngBounds();
 
         $('#deals div.item').each(function(){
             $this = $(this);
@@ -108,6 +109,8 @@
             if($this.data('marker') != marker)
                 $this.data('marker').setMap(null);
         })
+
+        map.setCenter(marker.getPosition());
     }
 
     function unrestirctMarker(){
@@ -115,6 +118,13 @@
             $this = $(this);
             $this.data('marker').setMap(map);
         })
+
+        map.fitBounds(bounds);
+
+        var listener = google.maps.event.addListener(map, "idle", function() {
+            if (map.getZoom() > 16) map.setZoom(16);
+            google.maps.event.removeListener(listener);
+        });
     }
 
     function removeMarker(){
